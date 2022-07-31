@@ -2,59 +2,38 @@ import Player from '@vimeo/player';
 
 const iframe = document.querySelector('iframe');
 const player = new Player(iframe);
-let arr = [];
+const VIDEOPLAYER_CURRENT_TIME = 'videoplayer-current-time';
+const savedTime = localStorage.getItem(VIDEOPLAYER_CURRENT_TIME);
+player.on('timeupdate', onPlay);
+console.log(player);
 
-player.on('play', function (data) {
-  //   console.log(date.seconds);
-  localStorage.setItem('videoplayer-current-time', data.seconds);
-  const ger = localStorage.getItem('videoplayer-current-time');
-  arr.push(ger);
-  console.log(Number(arr));
-});
-player
-  .setCurrentTime(Number(arr.length - 1))
-  .then(function (seconds) {
-    // seconds = the actual time that the player seeked to
-  })
-  .catch(function (error) {
-    switch (error.name) {
-      case 'RangeError':
-        // the time was less than 0 or greater than the video’s duration
-        break;
+function onPlay(data) {
+  localStorage.setItem(VIDEOPLAYER_CURRENT_TIME, data.seconds);
+}
 
-      default:
-        // some other error occurred
-        break;
-    }
-  });
+if (savedTime) {
+  parsedSeconds = JSON.parse(savedTime);
+} else {
+  parsedSeconds = 0;
+}
 
-// console.log(player);
+player.setCurrentTime(parsedSeconds);
 
-// player.on('timeupdate', onPlay);
-// let timeArray = [];
-// function onPlay(data) {
-//   console.log(data);
+// import throttle from 'lodash.throttle';
+// import Player from '@vimeo/player';
 
-//   localStorage.setItem('videoplayer-current-time', JSON.stringify(data));
-//   const curTime = localStorage.getItem('videoplayer-current-time');
-//   const parsedCurTime = JSON.parse(curTime);
-//   //   console.log(parsedCurTime.seconds);
-//   timeArray.push(parsedCurTime.seconds);
+// const VIDEOPLAYER_CURRENT_TIME = 'videoplayer-current-time';
+// const iframe = document.querySelector('#vimeo-player');
+// const player = new Player(iframe);
+// const getSavedTime = localStorage.getItem(VIDEOPLAYER_CURRENT_TIME);
+
+// if (getSavedTime) {
+//   player.setCurrentTime(getSavedTime);
 // }
-// console.log(timeArray);
-// player
-//   .setCurrentTime(timeArray.length - 1)
-//   .then(function (seconds) {
-//     // seconds = the actual time that the player seeked to
-//   })
-//   .catch(function (error) {
-//     switch (error.name) {
-//       case 'RangeError':
-//         // the time was less than 0 or greater than the video’s duration
-//         break;
 
-//       default:
-//         // some other error occurred
-//         break;
-//     }
-//   });
+// player.on('timeupdate', throttle(onTimeUpdate, 1000));
+
+// function onTimeUpdate(time) {
+//   let savedPausedPlayerTime = time.seconds;
+//   localStorage.setItem(VIDEOPLAYER_CURRENT_TIME, savedPausedPlayerTime);
+// }
