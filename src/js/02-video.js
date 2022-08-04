@@ -15,6 +15,7 @@ function onPlay(data) {
 
 if (savedTime) {
   parsedSeconds = JSON.parse(savedTime);
+  player.setCurrentTime(parsedSeconds);
+} else {
+  parsedSeconds = 0;
 }
-
-player.setCurrentTime(parsedSeconds);
