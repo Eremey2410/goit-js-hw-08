@@ -29,6 +29,5 @@ function populatedForm() {
     for (const key in parsedSavedMessage) {
       document.querySelector(`[name = ${key}]`).value = parsedSavedMessage[key];
     }
-    console.log('Значение при перезагрузке', parsedSavedMessage);
   }
 }
