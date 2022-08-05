@@ -17,19 +17,18 @@ function onFormSubmit(e) {
 
 function onTextareaInput(e) {
   formData[e.target.name] = e.target.value;
-  localStorage.setItem(
-    FORM_LOCALSTORAGE_KEY,
-    JSON.stringify(FORM_LOCALSTORAGE_KEY)
-  );
+  localStorage.setItem(FORM_LOCALSTORAGE_KEY, JSON.stringify(formData));
 }
 
 function populatedForm() {
   let savedMessage = localStorage.getItem(FORM_LOCALSTORAGE_KEY);
-  if (parsedSavedMessage) {
-    parsedSavedMessage = JSON.parse(savedMessage);
-    Object.entries(parsedSavedMessage).forEach(([name, value]) => {
-      FORM_LOCALSTORAGE_KEY[name] = value;
-      formData.elements[name].value = value;
+
+  if (savedMessage) {
+    savedMessage = JSON.parse(savedMessage);
+
+    Object.entries(savedMessage).forEach(([name, value]) => {
+      formData[name] = value;
+      form.elements[name].value = value;
     });
   }
 }
